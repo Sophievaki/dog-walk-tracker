@@ -613,20 +613,29 @@ renderHisto();
 // Génération de l'icône pour l'installation Android
 function initPWA() {
   const manifest = {
-    "name": "Balade Chien",
-    "short_name": "Balade",
-    "start_url": ".",
+    "name": "Balade du Chien 🐾",
+    "short_name": "Balade 🐾",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#0d0d1a",
     "theme_color": "#1a1a2e",
     "icons": [
-      { "src": "icon.png", "sizes": "192x192", "type": "image/png" },
-      { "src": "icon.png", "sizes": "512x512", "type": "image/png" }
+      { "src": "icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+      { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
     ]
   };
-  const stringManifest = JSON.stringify(manifest);
-  const blob = new Blob([stringManifest], {type: 'application/json'});
-  document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(blob));
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  
+  // Cette partie est cruciale :
+  let link = document.getElementById('manifest-placeholder');
+  if(!link) {
+    link = document.createElement('link');
+    link.id = 'manifest-placeholder';
+    link.rel = 'manifest';
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', url);
 }
 initPWA(); // On lance la fonction
 setupSensor();
