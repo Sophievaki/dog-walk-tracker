@@ -14,277 +14,304 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ... (Ton CSS reste exactement le même, je le saute pour gagner de la place) ... */
-:root{--bg:#0d0d1a;--surface:#1c1c3a;--surface2:#252550;--accent:#f5a623;--accent2:#ff6b6b;--green:#4ecdc4;--text:#e8e8f0;--muted:#7878a0;--border:rgba(255,255,255,0.07);}*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh;overflow-x:hidden}body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(245,166,35,.08) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 10% 80%,rgba(78,205,196,.06) 0%,transparent 60%);pointer-events:none}.app{position:relative;z-index:1;max-width:430px;margin:0 auto;padding:0 0 90px}header{padding:20px 20px 12px;display:flex;align-items:center;justify-content:space-between}.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px}.logo span{color:var(--accent)}.nav{display:flex;gap:4px;padding:0 20px 18px}.nav button{flex:1;padding:8px 2px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s}.nav button.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}.page{display:none;padding:0 16px}.page.active{display:block}.sensor-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:20px}.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}.dot.ok{background:var(--green);box-shadow:0 0 8px var(--green)}.dot.pulse{background:var(--accent);animation:blink .6s infinite alternate}@keyframes blink{to{opacity:.3}}.center{display:flex;flex-direction:column;align-items:center;gap:20px}.big-btn{width:170px;height:170px;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;transition:transform .15s}.big-btn:active{transform:scale(.93)}.big-btn.idle{background:linear-gradient(135deg,var(--accent),#e8920d);box-shadow:0 0 40px rgba(245,166,35,.35),0 8px 32px rgba(0,0,0,.4);color:#000}.big-btn.running{background:linear-gradient(135deg,var(--accent2),#e84040);box-shadow:0 0 40px rgba(255,107,107,.4),0 8px 32px rgba(0,0,0,.4);color:#fff}.btn-icon{font-size:34px}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}.stat.full{grid-column:1/-1}.stat-v{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:4px}.stat-v.g{color:var(--green)}.stat-v.r{color:var(--accent2)}.stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}.bar{height:4px;background:var(--surface2);border-radius:2px;margin-top:6px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));width:0%;transition:width .4s;border-radius:2px}.debug-box{background:#111130;border:1px solid rgba(78,205,196,.2);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--green);font-family:monospace;width:100%;display:none}.debug-box.show{display:block}.stitle{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}.stitle::after{content:'';flex:1;height:1px;background:var(--border)}.bilan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:22px}.bc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center}.bc-num{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--accent)}.bc-sub{font-size:11px;color:var(--muted);margin-top:2px}.bc.wide{grid-column:1/-1}.walk-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}.wi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}.wi-info{flex:1}.wi-date{font-size:12px;color:var(--muted)}.wi-main{font-size:14px;font-weight:500;margin-top:2px}.wi-right{text-align:right;flex-shrink:0}.wi-dist{font-family:'Syne',sans-serif;font-weight:700;color:var(--accent);font-size:15px}.wi-time{font-size:11px;color:var(--muted)}.wi-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;padding:4px;flex-shrink:0}.empty{text-align:center;color:var(--muted);padding:40px 20px;font-size:14px}.empty-ico{font-size:44px;display:block;margin-bottom:10px}.s-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:14px}.s-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);gap:10px}.s-row:last-child{border-bottom:none}.s-row.col{flex-direction:column;align-items:flex-start;gap:10px}.s-label{font-size:14px}.s-desc{font-size:12px;color:var(--muted);margin-top:2px}.s-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:6px 10px;font-size:14px;font-family:'DM Sans',sans-serif;width:80px;text-align:center}.s-input:focus{outline:none;border-color:var(--accent)}.s-input.wide{width:120px;text-align:left}.btn-green{background:var(--surface2);border:1px solid rgba(78,205,196,.3);border-radius:10px;color:var(--green);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity .2s}.btn-green:active{opacity:.7}.btn-red{width:100%;padding:13px;background:linear-gradient(135deg,#3a0a0a,#2a0505);border:1px solid rgba(255,107,107,.2);border-radius:14px;color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;margin-top:6px}.install-info{font-size:13px;color:var(--muted);line-height:1.9;width:100%}.install-info b{color:var(--text)}.install-info em{color:var(--accent);font-style:normal}.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:10px 20px;font-size:14px;opacity:0;transition:all .3s;z-index:200;white-space:nowrap;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+:root{--bg:#0d0d1a;--surface:#1c1c3a;--surface2:#252550;--accent:#f5a623;--accent2:#ff6b6b;--green:#4ecdc4;--text:#e8e8f0;--muted:#7878a0;--border:rgba(255,255,255,0.07);}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(245,166,35,.08) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 10% 80%,rgba(78,205,196,.06) 0%,transparent 60%);pointer-events:none}
+.app{position:relative;z-index:1;max-width:430px;margin:0 auto;padding:0 0 90px}
+header{padding:20px 20px 12px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px}
+.logo span{color:var(--accent)}
+.nav{display:flex;gap:4px;padding:0 20px 18px}
+.nav button{flex:1;padding:8px 2px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s}
+.nav button.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+.page{display:none;padding:0 16px}
+.page.active{display:block}
+.sensor-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:20px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
+.dot.ok{background:var(--green);box-shadow:0 0 8px var(--green)}
+.dot.pulse{background:var(--accent);animation:blink .6s infinite alternate}
+@keyframes blink{to{opacity:.3}}
+.center{display:flex;flex-direction:column;align-items:center;gap:20px}
+.big-btn{width:170px;height:170px;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;transition:transform .15s}
+.big-btn:active{transform:scale(.93)}
+.big-btn.idle{background:linear-gradient(135deg,var(--accent),#e8920d);box-shadow:0 0 40px rgba(245,166,35,.35),0 8px 32px rgba(0,0,0,.4);color:#000}
+.big-btn.running{background:linear-gradient(135deg,var(--accent2),#e84040);box-shadow:0 0 40px rgba(255,107,107,.4),0 8px 32px rgba(0,0,0,.4);color:#fff}
+.btn-icon{font-size:34px}
+
+/* --- GRILLE DE STATS CORRIGÉE --- */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}
+.stat.full{grid-column:1/-1} /* Les pas prennent toute la largeur */
+.stat-v{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:4px}
+.stat-v.g{color:var(--green)}
+.stat-v.r{color:var(--accent2)}
+.stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.bar{height:4px;background:var(--surface2);border-radius:2px;margin-top:6px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));width:0%;transition:width .4s;border-radius:2px}
+
+.debug-box{background:#111130;border:1px solid rgba(78,205,196,.2);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--green);font-family:monospace;width:100%;display:none}
+.debug-box.show{display:block}.stitle{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}.stitle::after{content:'';flex:1;height:1px;background:var(--border)}.bilan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:22px}.bc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center}.bc-num{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--accent)}.bc-sub{font-size:11px;color:var(--muted);margin-top:2px}.bc.wide{grid-column:1/-1}.walk-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}.wi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}.wi-info{flex:1}.wi-date{font-size:12px;color:var(--muted)}.wi-main{font-size:14px;font-weight:500;margin-top:2px}.wi-right{text-align:right;flex-shrink:0}.wi-dist{font-family:'Syne',sans-serif;font-weight:700;color:var(--accent);font-size:15px}.wi-time{font-size:11px;color:var(--muted)}.wi-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;padding:4px;flex-shrink:0}.empty{text-align:center;color:var(--muted);padding:40px 20px;font-size:14px}.empty-ico{font-size:44px;display:block;margin-bottom:10px}.s-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:14px}.s-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);gap:10px}.s-row:last-child{border-bottom:none}.s-row.col{flex-direction:column;align-items:flex-start;gap:10px}.s-label{font-size:14px}.s-desc{font-size:12px;color:var(--muted);margin-top:2px}.s-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:6px 10px;font-size:14px;font-family:'DM Sans',sans-serif;width:80px;text-align:center}.s-input:focus{outline:none;border-color:var(--accent)}.s-input.wide{width:120px;text-align:left}.btn-green{background:var(--surface2);border:1px solid rgba(78,205,196,.3);border-radius:10px;color:var(--green);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity .2s}.btn-green:active{opacity:.7}.btn-red{width:100%;padding:13px;background:linear-gradient(135deg,#3a0a0a,#2a0505);border:1px solid rgba(255,107,107,.2);border-radius:14px;color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;margin-top:6px}.install-info{font-size:13px;color:var(--muted);line-height:1.9;width:100%}.install-info b{color:var(--text)}.install-info em{color:var(--accent);font-style:normal}.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:10px 20px;font-size:14px;opacity:0;transition:all .3s;z-index:200;white-space:nowrap;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 <div class="app">
 
 <header>
-  <div class="logo">Balade <span>🐾</span></div>
-  <div style="font-size:12px;color:var(--muted)" id="dogName">Mon chien</div>
+  <div class="logo">Balade <span>🐾</span></div>
+  <div style="font-size:12px;color:var(--muted)" id="dogName">Mon chien</div>
 </header>
 
 <div class="nav">
-  <button class="active" onclick="nav('tracker',this)">🐕 Balade</button>
-  <button onclick="nav('bilans',this)">📊 Bilans</button>
-  <button onclick="nav('histo',this)">📋 Historique</button>
-  <button onclick="nav('settings',this)">⚙️ Réglages</button>
+  <button class="active" onclick="nav('tracker',this)">🐕 Balade</button>
+  <button onclick="nav('bilans',this)">📊 Bilans</button>
+  <button onclick="nav('histo',this)">📋 Historique</button>
+  <button onclick="nav('settings',this)">⚙️ Réglages</button>
 </div>
 
 <!-- TRACKER -->
 <div class="page active" id="page-tracker">
-  <div class="sensor-bar">
-    <div class="dot" id="dot"></div>
-    <span id="sensorTxt">Initialisation…</span>
-  </div>
-  <div class="center">
-    <button class="big-btn idle" id="mainBtn" onclick="toggleWalk()">
-      <span class="btn-icon" id="btnIcon">🐕</span>
-      <span id="btnLabel">START</span>
-    </button>
-    <div class="stats-grid">
-     <div class="stat full"> <!-- "full" ici pour que les Pas soient en haut tout seuls -->
-        <div class="stat-v" id="lSteps">0</div>
-        <div class="stat-l">Pas</div>
-        <div class="bar"><div class="bar-fill" id="barFill"></div></div>
-      </div>
-      <div class="stat">
-        <div class="stat-v g" id="lDist">0 m</div>
-        <div class="stat-l">Distance</div>
-      </div>
-      <div class="stat">
-        <div class="stat-v" id="lTime">00:00</div>
-        <div class="stat-l">Durée</div>
-      </div>
-      <div class="stat">
-        <div class="stat-v r" id="lPace">—</div>
-        <div class="stat-l">min/km</div>
-      </div>
-    </div>
-    <div class="debug-box" id="debugBox">
-      mag brut: <span id="dbMag">—</span> | seuil adapt.: <span id="dbThr">—</span> | pic: <span id="dbState">non</span>
-    </div>
-  </div>
+  <div class="sensor-bar">
+    <div class="dot" id="dot"></div>
+    <span id="sensorTxt">Initialisation…</span>
+  </div>
+  <div class="center">
+    <button class="big-btn idle" id="mainBtn" onclick="toggleWalk()">
+      <span class="btn-icon" id="btnIcon">🐕</span>
+      <span id="btnLabel">START</span>
+    </button>
+    
+    <div class="stats-grid">
+      <div class="stat full"> 
+        <div class="stat-v" id="lSteps">0</div>
+        <div class="stat-l">Pas</div>
+        <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-v g" id="lDist">0 m</div>
+        <div class="stat-l">Distance</div>
+      </div>
+      <div class="stat">
+        <div class="stat-v" id="lTime">00:00</div>
+        <div class="stat-l">Durée</div>
+      </div>
+      <div class="stat full"> <!-- Je l'ai mis en full pour un meilleur rendu sous la distance/durée -->
+        <div class="stat-v r" id="lPace">—</div>
+        <div class="stat-l">min/km (Allure)</div>
+      </div>
+    </div>
+
+    <div class="debug-box" id="debugBox">
+      mag brut: <span id="dbMag">—</span> | seuil adapt.: <span id="dbThr">—</span> | pic: <span id="dbState">non</span>
+    </div>
+  </div>
 </div>
 
-<!-- BILANS / HISTO / SETTINGS (Inchangés) -->
+<!-- BILANS / HISTO / SETTINGS -->
 <div class="page" id="page-bilans">
-  <div class="stitle">📅 Aujourd'hui</div>
-  <div class="bilan-grid" id="bJour"></div>
-  <div class="stitle">📆 Cette semaine</div>
-  <div class="bilan-grid" id="bSemaine"></div>
-  <div class="stitle">🗓️ Ce mois</div>
-  <div class="bilan-grid" id="bMois"></div>
+  <div class="stitle">📅 Aujourd'hui</div>
+  <div class="bilan-grid" id="bJour"></div>
+  <div class="stitle">📆 Cette semaine</div>
+  <div class="bilan-grid" id="bSemaine"></div>
+  <div class="stitle">🗓️ Ce mois</div>
+  <div class="bilan-grid" id="bMois"></div>
 </div>
 
 <div class="page" id="page-histo">
-  <div class="stitle">🗂️ Toutes les balades</div>
-  <div class="walk-list" id="walkList"></div>
+  <div class="stitle">🗂️ Toutes les balades</div>
+  <div class="walk-list" id="walkList"></div>
 </div>
 
 <div class="page" id="page-settings">
-  <div class="stitle">👤 Profil</div>
-  <div class="s-section">
-    <div class="s-row">
-      <div><div class="s-label">Taille (cm)</div><div class="s-desc">Calcul auto longueur de pas</div></div>
-      <input class="s-input" id="sHeight" type="number" value="168" min="140" max="220" onchange="onHeightChange()">
-    </div>
-    <div class="s-row">
-      <div><div class="s-label">Longueur de pas (cm)</div><div class="s-desc">Modifiable manuellement</div></div>
-      <input class="s-input" id="sStride" type="number" value="70" min="40" max="120" onchange="saveSettings()">
-    </div>
-    <div class="s-row">
-      <div><div class="s-label">Nom du chien 🐕</div></div>
-      <input class="s-input wide" id="sDog" type="text" value="Mon chien" onchange="saveSettings()">
-    </div>
-  </div>
-  <div class="stitle">🔧 Capteur</div>
-  <div class="s-section">
-    <div class="s-row">
-      <div><div class="s-label">Sensibilité</div><div class="s-desc">1.2 = défaut · ↑ moins sensible · ↓ plus sensible</div></div>
-      <input class="s-input" id="sThresh" type="number" value="1.2" min="0.3" max="4" step="0.1" onchange="saveSettings()">
-    </div>
-    <div class="s-row">
-      <div><div class="s-label">Debug capteur</div><div class="s-desc">Voir valeurs brutes pour calibrer</div></div>
-      <button class="btn-green" id="debugBtn" onclick="toggleDebug()">Activer</button>
-    </div>
-  </div>
-  <div class="stitle">💾 Sauvegarde</div>
-  <div class="s-section">
-    <div class="s-row">
-      <div><div class="s-label">Exporter mes balades</div><div class="s-desc">Télécharge un fichier .json</div></div>
-      <button class="btn-green" onclick="exportData()">📤 Exporter</button>
-    </div>
-    <div class="s-row">
-      <div><div class="s-label">Importer des balades</div><div class="s-desc">Restaure depuis un export précédent</div></div>
-      <button class="btn-green" onclick="document.getElementById('fileIn').click()">📥 Importer</button>
-      <input type="file" id="fileIn" accept=".json" style="display:none" onchange="importData(event)">
-    </div>
-  </div>
-  <button class="btn-red" onclick="clearAll()">🗑️ Effacer toutes les données</button>
+  <div class="stitle">👤 Profil</div>
+  <div class="s-section">
+    <div class="s-row">
+      <div><div class="s-label">Taille (cm)</div><div class="s-desc">Calcul auto longueur de pas</div></div>
+      <input class="s-input" id="sHeight" type="number" value="168" min="140" max="220" onchange="onHeightChange()">
+    </div>
+    <div class="s-row">
+      <div><div class="s-label">Longueur de pas (cm)</div><div class="s-desc">Modifiable manuellement</div></div>
+      <input class="s-input" id="sStride" type="number" value="70" min="40" max="120" onchange="saveSettings()">
+    </div>
+    <div class="s-row">
+      <div><div class="s-label">Nom du chien 🐕</div></div>
+      <input class="s-input wide" id="sDog" type="text" value="Mon chien" onchange="saveSettings()">
+    </div>
+  </div>
+  <div class="stitle">🔧 Capteur</div>
+  <div class="s-section">
+    <div class="s-row">
+      <div><div class="s-label">Sensibilité</div><div class="s-desc">1.2 = défaut · ↑ moins sensible · ↓ plus sensible</div></div>
+      <input class="s-input" id="sThresh" type="number" value="1.2" min="0.3" max="4" step="0.1" onchange="saveSettings()">
+    </div>
+    <div class="s-row">
+      <div><div class="s-label">Debug capteur</div><div class="s-desc">Voir valeurs brutes pour calibrer</div></div>
+      <button class="btn-green" id="debugBtn" onclick="toggleDebug()">Activer</button>
+    </div>
+  </div>
+  <div class="stitle">💾 Sauvegarde</div>
+  <div class="s-section">
+    <div class="s-row">
+      <div><div class="s-label">Exporter mes balades</div><div class="s-desc">Télécharge un fichier .json</div></div>
+      <button class="btn-green" onclick="exportData()">📤 Exporter</button>
+    </div>
+    <div class="s-row">
+      <div><div class="s-label">Importer des balades</div><div class="s-desc">Restaure depuis un export précédent</div></div>
+      <button class="btn-green" onclick="document.getElementById('fileIn').click()">📥 Importer</button>
+      <input type="file" id="fileIn" accept=".json" style="display:none" onchange="importData(event)">
+    </div>
+  </div>
+  <button class="btn-red" onclick="clearAll()">🗑️ Effacer toutes les données</button>
 </div>
 
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- AUDIO SILENCIEUX POUR EMPECHER LE KILL -->
+<!-- AUDIO SILENCIEUX -->
 <audio id="silentMode" loop>
     <source src="https://raw.githubusercontent.com/anars/blank-audio/master/10-seconds-of-silence.mp3" type="audio/mp3">
 </audio>
 
 <script>
-// STATE
 let isWalking = false, steps = 0, startTime = null, timerIv = null, sensorOk = false, debugMode = false, walks = [];
 let cfg = { height:168, stride:70, dog:'Mon chien', thresh:1.2 };
-let wakeLock = null; // Verrou d'éveil
+let wakeLock = null;
 
-// DETECTOR STATE
 const HP = 0.8, WIN = 30, MINMS = 280;
 let hx=0,hy=0,hz=0,px=0,py=0,pz=0, win=[], inPeak=false, lastStep=0;
 
-// FONCTION WAKELOCK (Garde l'écran/processeur éveillé)
 async function requestWakeLock() {
     try {
         if ('wakeLock' in navigator) {
             wakeLock = await navigator.wakeLock.request('screen');
-            console.log("WakeLock activé");
         }
-    } catch (err) { console.log("Erreur WakeLock: " + err.message); }
+    } catch (err) {}
 }
 
 function resetDetector(){ hx=0;hy=0;hz=0;px=0;py=0;pz=0; win=[];inPeak=false;lastStep=0; }
 
 function onMotion(e){
-  if(!isWalking) return;
-  let mag;
-  const la = e.acceleration;
-  if(la && la.x!==null && la.y!==null && la.z!==null && (Math.abs(la.x)+Math.abs(la.y)+Math.abs(la.z)) > 0.01){
-    mag = Math.sqrt(la.x*la.x + la.y*la.y + la.z*la.z);
-  } else {
-    const g = e.accelerationIncludingGravity;
-    if(!g||g.x===null) return;
-    hx=HP*(hx+g.x-px); px=g.x; hy=HP*(hy+g.y-py); py=g.y; hz=HP*(hz+g.z-pz); pz=g.z;
-    mag = Math.sqrt(hx*hx+hy*hy+hz*hz);
-  }
-  win.push(mag);
-  if(win.length>WIN) win.shift();
-  if(win.length<8) return;
-  const n = win.length;
-  const mean = win.reduce((a,v)=>a+v,0)/n;
-  const std = Math.sqrt(win.reduce((a,v)=>a+(v-mean)**2,0)/n);
-  const thr = mean + cfg.thresh * Math.max(std, 0.05);
+  if(!isWalking) return;
+  let mag;
+  const la = e.acceleration;
+  if(la && la.x!==null && la.y!==null && la.z!==null && (Math.abs(la.x)+Math.abs(la.y)+Math.abs(la.z)) > 0.01){
+    mag = Math.sqrt(la.x*la.x + la.y*la.y + la.z*la.z);
+  } else {
+    const g = e.accelerationIncludingGravity;
+    if(!g||g.x===null) return;
+    hx=HP*(hx+g.x-px); px=g.x; hy=HP*(hy+g.y-py); py=g.y; hz=HP*(hz+g.z-pz); pz=g.z;
+    mag = Math.sqrt(hx*hx+hy*hy+hz*hz);
+  }
+  win.push(mag);
+  if(win.length>WIN) win.shift();
+  if(win.length<8) return;
+  const n = win.length;
+  const mean = win.reduce((a,v)=>a+v,0)/n;
+  const std = Math.sqrt(win.reduce((a,v)=>a+(v-mean)**2,0)/n);
+  const thr = mean + cfg.thresh * Math.max(std, 0.05);
 
-  if(debugMode){
-    document.getElementById('dbMag').textContent = mag.toFixed(3);
-    document.getElementById('dbThr').textContent = thr.toFixed(3);
-    document.getElementById('dbState').textContent = inPeak?'OUI':'non';
-  }
-  if(!inPeak && mag>thr){ inPeak=true; } 
+  if(debugMode){
+    document.getElementById('dbMag').textContent = mag.toFixed(3);
+    document.getElementById('dbThr').textContent = thr.toFixed(3);
+    document.getElementById('dbState').textContent = inPeak?'OUI':'non';
+  }
+  if(!inPeak && mag>thr){ inPeak=true; } 
   else if(inPeak && mag<=thr){
-    inPeak=false;
-    const now=Date.now();
-    if(now-lastStep>=MINMS){ lastStep=now; addStep(); }
-  }
+    inPeak=false;
+    const now=Date.now();
+    if(now-lastStep>=MINMS){ lastStep=now; addStep(); }
+  }
 }
 
 function addStep(){
-  steps++;
-  const km = steps*cfg.stride/100/1000;
-  document.getElementById('lSteps').textContent = steps;
-  document.getElementById('lDist').textContent = fmtDist(km);
-  document.getElementById('barFill').style.width = Math.min(100,steps/5000*100)+'%';
+  steps++;
+  const km = steps*cfg.stride/100/1000;
+  document.getElementById('lSteps').textContent = steps;
+  document.getElementById('lDist').textContent = fmtDist(km);
+  document.getElementById('barFill').style.width = Math.min(100,steps/5000*100)+'%';
 }
 
 function setupSensor(){
-  if(typeof DeviceMotionEvent==='undefined'){ setSensor('','❌ Capteur non dispo'); return; }
-  if(typeof DeviceMotionEvent.requestPermission==='function'){
-    setSensor('','iOS : appuyez START');
-  } else {
-    window.addEventListener('devicemotion', onMotion, {passive:true});
-    sensorOk=true; setSensor('ok','Capteur prêt ✓');
-  }
+  if(typeof DeviceMotionEvent==='undefined'){ setSensor('','❌ Capteur non dispo'); return; }
+  if(typeof DeviceMotionEvent.requestPermission==='function'){
+    setSensor('','iOS : appuyez START');
+  } else {
+    window.addEventListener('devicemotion', onMotion, {passive:true});
+    sensorOk=true; setSensor('ok','Capteur prêt ✓');
+  }
 }
 
 async function ensureSensor(){
-  if(sensorOk) return true;
-  if(typeof DeviceMotionEvent.requestPermission==='function'){
-    try{
-      const r=await DeviceMotionEvent.requestPermission();
-      if(r==='granted'){
-        window.addEventListener('devicemotion', onMotion, {passive:true});
-        sensorOk=true; return true;
-      }
-      return false;
-    }catch{ return false; }
-  }
-  return true;
+  if(sensorOk) return true;
+  if(typeof DeviceMotionEvent.requestPermission==='function'){
+    try{
+      const r=await DeviceMotionEvent.requestPermission();
+      if(r==='granted'){
+        window.addEventListener('devicemotion', onMotion, {passive:true});
+        sensorOk=true; return true;
+      }
+      return false;
+    }catch{ return false; }
+  }
+  return true;
 }
 
 function setSensor(state, msg){
-  document.getElementById('dot').className = 'dot '+(state||'');
-  document.getElementById('sensorTxt').textContent = msg;
+  document.getElementById('dot').className = 'dot '+(state||'');
+  document.getElementById('sensorTxt').textContent = msg;
 }
 
 async function toggleWalk(){
-  if(!isWalking){
-    const ok=await ensureSensor();
-    if(!ok) return;
-    startWalk();
-  } else { stopWalk(); }
+  if(!isWalking){
+    const ok=await ensureSensor();
+    if(!ok) return;
+    startWalk();
+  } else { stopWalk(); }
 }
 
 function startWalk(){
-  isWalking=true; steps=0; startTime=Date.now();
-  resetDetector();
-  
-  // ACTIVATION DES PROTECTIONS
+  isWalking=true; steps=0; startTime=Date.now();
+  resetDetector();
   requestWakeLock();
   document.getElementById('silentMode').play().catch(e => console.log("Audio bloqué"));
-
-  document.getElementById('mainBtn').className='big-btn running';
-  document.getElementById('btnIcon').textContent='🛑';
-  document.getElementById('btnLabel').textContent='STOP';
-  setSensor('pulse','Balade en cours…');
-  timerIv=setInterval(updateTimer,1000);
-  toast('Balade démarrée 🐕');
+  document.getElementById('mainBtn').className='big-btn running';
+  document.getElementById('btnIcon').textContent='🛑';
+  document.getElementById('btnLabel').textContent='STOP';
+  setSensor('pulse','Balade en cours…');
+  timerIv=setInterval(updateTimer,1000);
+  toast('Balade démarrée 🐕');
 }
 
 function stopWalk(){
-  isWalking=false;
-  clearInterval(timerIv); timerIv=null;
-  
-  // DESACTIVATION DES PROTECTIONS
+  isWalking=false;
+  clearInterval(timerIv); timerIv=null;
   if(wakeLock) { wakeLock.release(); wakeLock = null; }
   document.getElementById('silentMode').pause();
-
-  const elapsed=Date.now()-startTime;
-  const dist=steps*cfg.stride/100/1000;
-  walks.unshift({id:Date.now(),date:new Date().toISOString(),steps,distKm:parseFloat(dist.toFixed(4)),durationMs:elapsed,dog:cfg.dog});
-  saveWalks();
-  document.getElementById('mainBtn').className='big-btn idle';
-  document.getElementById('btnIcon').textContent='🐕';
-  document.getElementById('btnLabel').textContent='START';
-  setSensor('ok','Prêt ✓');
-  renderBilans(); renderHisto();
-  toast('Terminé !');
-  startTime=null;
+  const elapsed=Date.now()-startTime;
+  const dist=steps*cfg.stride/100/1000;
+  walks.unshift({id:Date.now(),date:new Date().toISOString(),steps,distKm:parseFloat(dist.toFixed(4)),durationMs:elapsed,dog:cfg.dog});
+  saveWalks();
+  document.getElementById('mainBtn').className='big-btn idle';
+  document.getElementById('btnIcon').textContent='🐕';
+  document.getElementById('btnLabel').textContent='START';
+  setSensor('ok','Prêt ✓');
+  renderBilans(); renderHisto();
+  toast('Terminé !');
+  startTime=null;
 }
 
 function updateTimer(){
-  if(!startTime) return;
-  const ms=Date.now()-startTime;
-  document.getElementById('lTime').textContent=fmtTime(ms);
-  const dist=steps*cfg.stride/100/1000;
-  if(ms>15000&&dist>0.01){
-    const pace=(ms/60000)/dist;
-    const pm=Math.floor(pace), ps=Math.round((pace-pm)*60);
-    document.getElementById('lPace').textContent=pm+':'+String(ps).padStart(2,'0');
-  }
+  if(!startTime) return;
+  const ms=Date.now()-startTime;
+  document.getElementById('lTime').textContent=fmtTime(ms);
+  const dist=steps*cfg.stride/100/1000;
+  if(ms>15000&&dist>0.01){
+    const pace=(ms/60000)/dist;
+    const pm=Math.floor(pace), ps=Math.round((pace-pm)*60);
+    document.getElementById('lPace').textContent=pm+':'+String(ps).padStart(2,'0');
+  }
 }
 
-// BILANS / HISTO / SETTINGS / HELPERS (Inchangés pour garder tes fonctions)
 function renderBilans(){ const now=new Date(); const todayW=walks.filter(w=>new Date(w.date).toDateString()===now.toDateString()); const wk=new Date(now); wk.setDate(now.getDate()-((now.getDay()+6)%7)); wk.setHours(0,0,0,0); const weekW=walks.filter(w=>new Date(w.date)>=wk); const monW=walks.filter(w=>{const d=new Date(w.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}); renderBlock('bJour',todayW); renderBlock('bSemaine',weekW); renderBlock('bMois',monW);}
 function renderBlock(id,ws){ const el=document.getElementById(id); if(!ws.length){ el.innerHTML='<div class="bc wide"><div style="font-size:28px">🦴</div><div class="bc-sub">Aucune balade</div></div>'; return; } const ts=ws.reduce((a,w)=>a+w.steps,0); const td=ws.reduce((a,w)=>a+w.distKm,0); const tm=ws.reduce((a,w)=>a+w.durationMs,0); const n=ws.length; el.innerHTML=`<div class="bc"><div class="bc-num">${n}</div><div class="bc-sub">balade${n>1?'s':''}</div></div><div class="bc"><div class="bc-num" style="color:var(--green)">${fmtDist(td)}</div><div class="bc-sub">parcourus</div></div><div class="bc"><div class="bc-num" style="color:var(--accent2)">${fmtDurShort(tm)}</div><div class="bc-sub">en balade</div></div><div class="bc wide"><div class="bc-num" style="font-size:17px">${ts.toLocaleString('fr-FR')} pas</div><div class="bc-sub">${n>1?'Moy. '+fmtDist(td/n)+' par balade':'Unique'}</div></div>`;}
 function renderHisto(){ const el=document.getElementById('walkList'); if(!walks.length){ el.innerHTML='<div class="empty">Aucune balade enregistrée.</div>'; return; } el.innerHTML=walks.map((w,i)=>{ const d=new Date(w.date); return `<div class="wi"><div class="wi-info"><div class="wi-date">${d.toLocaleDateString('fr-FR')}</div><div class="wi-main">${w.steps.toLocaleString('fr-FR')} pas</div></div><div class="wi-right"><div class="wi-dist">${fmtDist(w.distKm)}</div></div><button class="wi-del" onclick="delWalk(${i})">✕</button></div>`; }).join('');}
@@ -302,15 +329,14 @@ function fmtDurShort(ms){ const m=Math.floor(ms/60000),h=Math.floor(m/60); if(h>
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg;t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
 function nav(name,btn){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active')); document.getElementById('page-'+name).classList.add('active'); btn.classList.add('active'); if(name==='bilans') renderBilans(); if(name==='histo') renderHisto(); }
 
-// INIT
 loadSettings(); loadWalks(); renderBilans(); renderHisto();
 function initPWA() {
-  const manifest = { "name": "Balade du Chien 🐾", "short_name": "Balade 🐾", "start_url": "./index.html", "display": "standalone", "background_color": "#0d0d1a", "theme_color": "#1a1a2e", "icons": [ { "src": "icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }, { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" } ] };
-  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  let link = document.getElementById('manifest-placeholder');
-  if(!link) { link = document.createElement('link'); link.id = 'manifest-placeholder'; link.rel = 'manifest'; document.head.appendChild(link); }
-  link.setAttribute('href', url);
+  const manifest = { "name": "Balade du Chien 🐾", "short_name": "Balade 🐾", "start_url": "./index.html", "display": "standalone", "background_color": "#0d0d1a", "theme_color": "#1a1a2e", "icons": [ { "src": "icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }, { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" } ] };
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  let link = document.getElementById('manifest-placeholder');
+  if(!link) { link = document.createElement('link'); link.id = 'manifest-placeholder'; link.rel = 'manifest'; document.head.appendChild(link); }
+  link.setAttribute('href', url);
 }
 initPWA();
 setupSensor();
