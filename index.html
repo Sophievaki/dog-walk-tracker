@@ -1,238 +1,1229 @@
 <!DOCTYPE html>
+
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#1a1a2e">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-title" content="Balade 🐾">
+
+<link rel="manifest" id="manifest-placeholder">
+
 <title>🐾 Balade du Chien</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+
+<link rel="icon" type="image/png" href="icon.png">
+
+<link rel="apple-touch-icon" href="icon.png">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-:root{--bg:#0d0d1a;--surface:#1c1c3a;--surface2:#252550;--accent:#f5a623;--accent2:#ff6b6b;--green:#4ecdc4;--text:#e8e8f0;--muted:#7878a0;--border:rgba(255,255,255,0.07);}
+
+:root{
+
+  --bg:#0d0d1a;--surface:#1c1c3a;--surface2:#252550;
+
+  --accent:#f5a623;--accent2:#ff6b6b;--green:#4ecdc4;
+
+  --text:#e8e8f0;--muted:#7878a0;--border:rgba(255,255,255,0.07);
+
+}
+
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh}
-.app{max-width:430px;margin:0 auto;padding:0 16px 100px}
-header{padding:20px 0;display:flex;justify-content:space-between;align-items:center}
+
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh;overflow-x:hidden}
+
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(245,166,35,.08) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 10% 80%,rgba(78,205,196,.06) 0%,transparent 60%);pointer-events:none}
+
+.app{position:relative;z-index:1;max-width:430px;margin:0 auto;padding:0 0 90px}
+
+
+header{padding:20px 20px 12px;display:flex;align-items:center;justify-content:space-between}
+
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px}
+
 .logo span{color:var(--accent)}
-.nav{display:flex;gap:8px;margin-bottom:20px}
-.nav button{flex:1;padding:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);font-size:12px;cursor:pointer}
-.nav button.active{background:var(--accent);color:#000;font-weight:600}
-.page{display:none}
+
+
+.nav{display:flex;gap:4px;padding:0 20px 18px}
+
+.nav button{flex:1;padding:8px 2px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s}
+
+.nav button.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+
+
+.page{display:none;padding:0 16px}
+
 .page.active{display:block}
-.sensor-bar{background:var(--surface);padding:12px;border-radius:14px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-size:13px}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--muted)}
+
+
+.sensor-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:20px}
+
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
+
 .dot.ok{background:var(--green);box-shadow:0 0 8px var(--green)}
+
 .dot.pulse{background:var(--accent);animation:blink .6s infinite alternate}
+
 @keyframes blink{to{opacity:.3}}
+
+
 .center{display:flex;flex-direction:column;align-items:center;gap:20px}
-.big-btn{width:160px;height:160px;border-radius:50%;border:none;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;cursor:pointer;transition:transform 0.1s}
-.big-btn:active{transform:scale(0.95)}
-.big-btn.idle{background:var(--accent);color:#000;box-shadow:0 0 30px rgba(245,166,35,0.2)}
-.big-btn.running{background:var(--accent2);color:#fff;box-shadow:0 0 30px rgba(255,107,107,0.3)}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
-.stat{background:var(--surface);padding:16px;border-radius:16px;text-align:center;border:1px solid var(--border)}
-.stat.wide{grid-column:span 2}
-.stat-v{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent)}
-.stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;margin-top:4px}
-.stitle{font-family:'Syne',sans-serif;font-size:18px;margin:20px 0 12px;display:flex;align-items:center;gap:10px}
+
+.big-btn{width:170px;height:170px;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;transition:transform .15s}
+
+.big-btn:active{transform:scale(.93)}
+
+.big-btn.idle{background:linear-gradient(135deg,var(--accent),#e8920d);box-shadow:0 0 40px rgba(245,166,35,.35),0 8px 32px rgba(0,0,0,.4);color:#000}
+
+.big-btn.running{background:linear-gradient(135deg,var(--accent2),#e84040);box-shadow:0 0 40px rgba(255,107,107,.4),0 8px 32px rgba(0,0,0,.4);color:#fff}
+
+.btn-icon{font-size:34px}
+
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}
+
+.stat.full{grid-column:1/-1}
+
+.stat-v{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:4px}
+
+.stat-v.g{color:var(--green)}
+
+.stat-v.r{color:var(--accent2)}
+
+.stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+.bar{height:4px;background:var(--surface2);border-radius:2px;margin-top:6px;overflow:hidden}
+
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));width:0%;transition:width .4s;border-radius:2px}
+
+
+.debug-box{background:#111130;border:1px solid rgba(78,205,196,.2);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--green);font-family:monospace;width:100%;display:none}
+
+.debug-box.show{display:block}
+
+
+.stitle{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
 .stitle::after{content:'';flex:1;height:1px;background:var(--border)}
-.bilan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.bc{background:var(--surface);padding:12px 5px;border-radius:12px;text-align:center;border:1px solid var(--border)}
-.bc-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent)}
-.bc-sub{font-size:10px;color:var(--muted)}
-.wi{background:var(--surface);padding:12px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.s-row{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--surface);border-radius:12px;margin-bottom:8px}
-.s-input{background:var(--surface2);border:none;color:#fff;padding:8px;border-radius:6px;width:70px;text-align:center}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:10px 20px;border-radius:20px;font-weight:bold;display:none;z-index:1000}
+
+
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:22px}
+
+.bc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center}
+
+.bc-num{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--accent)}
+
+.bc-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+.bc.wide{grid-column:1/-1}
+
+
+.walk-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+
+.wi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+
+.wi-info{flex:1}
+
+.wi-date{font-size:12px;color:var(--muted)}
+
+.wi-main{font-size:14px;font-weight:500;margin-top:2px}
+
+.wi-right{text-align:right;flex-shrink:0}
+
+.wi-dist{font-family:'Syne',sans-serif;font-weight:700;color:var(--accent);font-size:15px}
+
+.wi-time{font-size:11px;color:var(--muted)}
+
+.wi-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;padding:4px;flex-shrink:0}
+
+.empty{text-align:center;color:var(--muted);padding:40px 20px;font-size:14px}
+
+.empty-ico{font-size:44px;display:block;margin-bottom:10px}
+
+
+.s-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:14px}
+
+.s-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);gap:10px}
+
+.s-row:last-child{border-bottom:none}
+
+.s-row.col{flex-direction:column;align-items:flex-start;gap:10px}
+
+.s-label{font-size:14px}
+
+.s-desc{font-size:12px;color:var(--muted);margin-top:2px}
+
+.s-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:6px 10px;font-size:14px;font-family:'DM Sans',sans-serif;width:80px;text-align:center}
+
+.s-input:focus{outline:none;border-color:var(--accent)}
+
+.s-input.wide{width:120px;text-align:left}
+
+
+.btn-green{background:var(--surface2);border:1px solid rgba(78,205,196,.3);border-radius:10px;color:var(--green);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity .2s}
+
+.btn-green:active{opacity:.7}
+
+.btn-red{width:100%;padding:13px;background:linear-gradient(135deg,#3a0a0a,#2a0505);border:1px solid rgba(255,107,107,.2);border-radius:14px;color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;margin-top:6px}
+
+
+.install-info{font-size:13px;color:var(--muted);line-height:1.9;width:100%}
+
+.install-info b{color:var(--text)}
+
+.install-info em{color:var(--accent);font-style:normal}
+
+
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:10px 20px;font-size:14px;opacity:0;transition:all .3s;z-index:200;white-space:nowrap;pointer-events:none}
+
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
 </style>
+
 </head>
+
 <body>
 
 <div class="app">
-    <header>
-        <div class="logo">Balade <span>🐾</span></div>
-        <div id="dogName" style="font-size:14px;color:var(--muted)">Mon chien</div>
-    </header>
 
-    <div class="nav">
-        <button class="active" onclick="nav('tracker',this)">Balade</button>
-        <button onclick="nav('bilans',this)">Bilans</button>
-        <button onclick="nav('histo',this)">Histo</button>
-        <button onclick="nav('settings',this)">Réglages</button>
+
+<header>
+
+  <div class="logo">Balade <span>🐾</span></div>
+
+  <div style="font-size:12px;color:var(--muted)" id="dogName">Mon chien</div>
+
+</header>
+
+
+<div class="nav">
+
+  <button class="active" onclick="nav('tracker',this)">🐕 Balade</button>
+
+  <button onclick="nav('bilans',this)">📊 Bilans</button>
+
+  <button onclick="nav('histo',this)">📋 Historique</button>
+
+  <button onclick="nav('settings',this)">⚙️ Réglages</button>
+
+</div>
+
+
+<!-- TRACKER -->
+
+<div class="page active" id="page-tracker">
+
+  <div class="sensor-bar">
+
+    <div class="dot" id="dot"></div>
+
+    <span id="sensorTxt">Initialisation…</span>
+
+  </div>
+
+  <div class="center">
+
+    <button class="big-btn idle" id="mainBtn" onclick="toggleWalk()">
+
+      <span class="btn-icon" id="btnIcon">🐕</span>
+
+      <span id="btnLabel">START</span>
+
+    </button>
+
+    <div class="stats-grid">
+
+      <div class="stat">
+
+        <div class="stat-v" id="lSteps">0</div>
+
+        <div class="stat-l">Pas</div>
+
+        <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+
+      </div>
+
+      <div class="stat">
+
+        <div class="stat-v g" id="lDist">0 m</div>
+
+        <div class="stat-l">Distance</div>
+
+      </div>
+
+      <div class="stat">
+
+        <div class="stat-v" id="lTime">00:00</div>
+
+        <div class="stat-l">Durée</div>
+
+      </div>
+
+      <div class="stat">
+
+        <div class="stat-v r" id="lPace">—</div>
+
+        <div class="stat-l">min/km</div>
+
+      </div>
+
     </div>
 
-    <!-- PAGE TRACKER -->
-    <div class="page active" id="page-tracker">
-        <div class="sensor-bar">
-            <div class="dot" id="dot"></div>
-            <span id="sensorTxt">Initialisation...</span>
-        </div>
-        <div class="center">
-            <button class="big-btn idle" id="mainBtn" onclick="toggleWalk()">START</button>
-            <div class="stats-grid">
-                <div class="stat wide"><div class="stat-v" id="lSteps">0</div><div class="stat-l">Pas</div></div>
-                <div class="stat"><div class="stat-v" id="lDist">0 m</div><div class="stat-l">Distance</div></div>
-                <div class="stat"><div class="stat-v" id="lTime">00:00</div><div class="stat-l">Durée</div></div>
-            </div>
-        </div>
+    <div class="debug-box" id="debugBox">
+
+      mag brut: <span id="dbMag">—</span> | seuil adapt.: <span id="dbThr">—</span> | pic: <span id="dbState">non</span>
+
     </div>
 
-    <!-- PAGE BILANS -->
-    <div class="page" id="page-bilans">
-        <div class="stitle">Aujourd'hui</div>
-        <div class="bilan-grid" id="bJour"></div>
-        <div class="stitle">Cette semaine</div>
-        <div class="bilan-grid" id="bSemaine"></div>
-        <div class="stitle">Ce mois</div>
-        <div class="bilan-grid" id="bMois"></div>
+  </div>
+
+</div>
+
+
+<!-- BILANS -->
+
+<div class="page" id="page-bilans">
+
+  <div class="stitle">📅 Aujourd'hui</div>
+
+  <div class="bilan-grid" id="bJour"></div>
+
+  <div class="stitle">📆 Cette semaine</div>
+
+  <div class="bilan-grid" id="bSemaine"></div>
+
+  <div class="stitle">🗓️ Ce mois</div>
+
+  <div class="bilan-grid" id="bMois"></div>
+
+</div>
+
+
+<!-- HISTORIQUE -->
+
+<div class="page" id="page-histo">
+
+  <div class="stitle">🗂️ Toutes les balades</div>
+
+  <div class="walk-list" id="walkList"></div>
+
+</div>
+
+
+<!-- RÉGLAGES -->
+
+<div class="page" id="page-settings">
+
+
+  <div class="stitle">👤 Profil</div>
+
+  <div class="s-section">
+
+    <div class="s-row">
+
+      <div><div class="s-label">Taille (cm)</div><div class="s-desc">Calcul auto longueur de pas</div></div>
+
+      <input class="s-input" id="sHeight" type="number" value="168" min="140" max="220" onchange="onHeightChange()">
+
     </div>
 
-    <!-- PAGE HISTO -->
-    <div class="page" id="page-histo">
-        <div class="stitle">Historique</div>
-        <div id="walkList"></div>
+    <div class="s-row">
+
+      <div><div class="s-label">Longueur de pas (cm)</div><div class="s-desc">Modifiable manuellement</div></div>
+
+      <input class="s-input" id="sStride" type="number" value="70" min="40" max="120" onchange="saveSettings()">
+
     </div>
 
-    <!-- PAGE REGLAGES -->
-    <div class="page" id="page-settings">
-        <div class="stitle">Profil</div>
-        <div class="s-row"><span>Taille (cm)</span><input type="number" class="s-input" id="sHeight" onchange="updateHeight()"></div>
-        <div class="s-row"><span>Nom du chien</span><input type="text" class="s-input" style="width:120px" id="sDog" onchange="saveCfg()"></div>
-        <div class="stitle">Données</div>
-        <button onclick="exportData()" style="width:100%;padding:12px;border-radius:12px;margin-bottom:10px">📤 Exporter JSON</button>
-        <button onclick="confirm('Effacer tout ?') && (walks=[],saveWalks(),location.reload())" style="width:100%;padding:12px;border-radius:12px;background:#3a0a0a;color:var(--accent2);border:none">🗑️ Reset Total</button>
+    <div class="s-row">
+
+      <div><div class="s-label">Nom du chien 🐕</div></div>
+
+      <input class="s-input wide" id="sDog" type="text" value="Mon chien" onchange="saveSettings()">
+
     </div>
+
+  </div>
+
+
+  <div class="stitle">🔧 Capteur</div>
+
+  <div class="s-section">
+
+    <div class="s-row">
+
+      <div><div class="s-label">Sensibilité</div><div class="s-desc">1.2 = défaut · ↑ moins sensible · ↓ plus sensible</div></div>
+
+      <input class="s-input" id="sThresh" type="number" value="1.2" min="0.3" max="4" step="0.1" onchange="saveSettings()">
+
+    </div>
+
+    <div class="s-row">
+
+      <div><div class="s-label">Debug capteur</div><div class="s-desc">Voir valeurs brutes pour calibrer</div></div>
+
+      <button class="btn-green" id="debugBtn" onclick="toggleDebug()">Activer</button>
+
+    </div>
+
+  </div>
+
+
+  <div class="stitle">💾 Sauvegarde</div>
+
+  <div class="s-section">
+
+    <div class="s-row">
+
+      <div><div class="s-label">Exporter mes balades</div><div class="s-desc">Télécharge un fichier .json</div></div>
+
+      <button class="btn-green" onclick="exportData()">📤 Exporter</button>
+
+    </div>
+
+    <div class="s-row">
+
+      <div><div class="s-label">Importer des balades</div><div class="s-desc">Restaure depuis un export précédent</div></div>
+
+      <button class="btn-green" onclick="document.getElementById('fileIn').click()">📥 Importer</button>
+
+      <input type="file" id="fileIn" accept=".json" style="display:none" onchange="importData(event)">
+
+    </div>
+
+  </div>
+
+
+  <div class="stitle">📱 Installer sur votre ZTE (Android)</div>
+
+  <div class="s-section">
+
+    <div class="s-row col">
+
+      <div class="install-info">
+
+        <b>Étape 1</b> — Ouvrez ce fichier <em>dans Chrome</em> (pas dans un gestionnaire de fichiers)<br>
+
+        <b>Étape 2</b> — Appuyez sur les <em>3 points ⋮</em> en haut à droite de Chrome<br>
+
+        <b>Étape 3</b> — Appuyez sur <em>« Ajouter à l'écran d'accueil »</em><br>
+
+        <b>Étape 4</b> — Confirmez → l'icône 🐾 apparaît sur votre bureau<br>
+
+        <b>Étape 5</b> — Lancez l'app depuis l'icône, elle s'ouvre en plein écran<br><br>
+
+        <b>⚠️ Données :</b> Stockées dans Chrome. Faites un <em>Export</em> régulièrement pour ne rien perdre si vous videz le cache ou changez de téléphone.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button class="btn-red" onclick="clearAll()">🗑️ Effacer toutes les données</button>
+
+</div>
+
+
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- CORRECTIF ANTI-KILL : AUDIO SILENCIEUX -->
-<audio id="silentMode" loop>
-    <source src="https://raw.githubusercontent.com/anars/blank-audio/master/10-seconds-of-silence.mp3" type="audio/mp3">
-</audio>
 
 <script>
-let isWalking = false, steps = 0, startTime = null, timerIv = null, walks = [], wakeLock = null;
-let cfg = { height: 170, stride: 70, dog: "Chien" };
 
-// --- LOGIQUE CORE ---
-async function requestWakeLock() {
-    try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {}
+// ═══════════════════════════════════════
+
+// STATE
+
+// ═══════════════════════════════════════
+
+let isWalking  = false;
+
+let steps      = 0;
+
+let startTime  = null;
+
+let timerIv    = null;
+
+let sensorOk   = false;
+
+let debugMode  = false;
+
+let walks      = [];
+
+
+let cfg = { height:168, stride:70, dog:'Mon chien', thresh:1.2 };
+
+
+// ═══════════════════════════════════════
+
+// STEP DETECTION
+
+// High-pass filter removes gravity → works in any phone orientation.
+
+// Adaptive threshold auto-adjusts to walking intensity.
+
+// ═══════════════════════════════════════
+
+const HP     = 0.8;   // high-pass alpha
+
+const WIN    = 30;    // ~1s sliding window
+
+const MINMS  = 280;   // min ms between 2 steps
+
+
+let hx=0,hy=0,hz=0,px=0,py=0,pz=0;
+
+let win=[], inPeak=false, lastStep=0;
+
+
+function resetDetector(){
+
+  hx=0;hy=0;hz=0;px=0;py=0;pz=0;
+
+  win=[];inPeak=false;lastStep=0;
+
 }
 
-function onMotion(e) {
-    if (!isWalking) return;
-    const acc = e.accelerationIncludingGravity;
-    if (!acc) return;
-    let mag = Math.sqrt(acc.x*acc.x + acc.y*acc.y + acc.z*acc.z);
-    if (mag > 12.5) { // Seuil simple
-        if (!this.inStep) {
-            steps++;
-            document.getElementById('lSteps').textContent = steps;
-            let d = (steps * cfg.stride / 100);
-            document.getElementById('lDist').textContent = d < 1000 ? Math.round(d)+" m" : (d/1000).toFixed(2)+" km";
-            this.inStep = true;
-            setTimeout(() => this.inStep = false, 300);
-        }
+
+function onMotion(e){
+
+  if(!isWalking) return;
+
+  let mag;
+
+
+  // Android provides clean linear acceleration (gravity removed by OS)
+
+  const la = e.acceleration;
+
+  if(la && la.x!==null && la.y!==null && la.z!==null &&
+
+     (Math.abs(la.x)+Math.abs(la.y)+Math.abs(la.z)) > 0.01){
+
+    mag = Math.sqrt(la.x*la.x + la.y*la.y + la.z*la.z);
+
+  } else {
+
+    // Fallback: manual high-pass filter
+
+    const g = e.accelerationIncludingGravity;
+
+    if(!g||g.x===null) return;
+
+    hx=HP*(hx+g.x-px); px=g.x;
+
+    hy=HP*(hy+g.y-py); py=g.y;
+
+    hz=HP*(hz+g.z-pz); pz=g.z;
+
+    mag = Math.sqrt(hx*hx+hy*hy+hz*hz);
+
+  }
+
+
+  // Sliding window
+
+  win.push(mag);
+
+  if(win.length>WIN) win.shift();
+
+  if(win.length<8) return; // need enough samples first
+
+
+  // Adaptive threshold = mean + k * std
+
+  const n    = win.length;
+
+  const mean = win.reduce((a,v)=>a+v,0)/n;
+
+  const std  = Math.sqrt(win.reduce((a,v)=>a+(v-mean)**2,0)/n);
+
+  const thr  = mean + cfg.thresh * Math.max(std, 0.05);
+
+
+  if(debugMode){
+
+    document.getElementById('dbMag').textContent   = mag.toFixed(3);
+
+    document.getElementById('dbThr').textContent   = thr.toFixed(3);
+
+    document.getElementById('dbState').textContent = inPeak?'OUI':'non';
+
+  }
+
+
+  // Rising edge → falling edge = 1 step
+
+  if(!inPeak && mag>thr){
+
+    inPeak=true;
+
+  } else if(inPeak && mag<=thr){
+
+    inPeak=false;
+
+    const now=Date.now();
+
+    if(now-lastStep>=MINMS){
+
+      lastStep=now;
+
+      addStep();
+
     }
+
+  }
+
 }
 
-async function toggleWalk() {
-    if (!isWalking) {
-        if (typeof DeviceMotionEvent.requestPermission === 'function') {
-            const res = await DeviceMotionEvent.requestPermission();
-            if (res !== 'granted') return;
-        }
-        isWalking = true; steps = 0; startTime = Date.now();
-        window.addEventListener('devicemotion', onMotion);
-        document.getElementById('silentMode').play().catch(() => {});
-        requestWakeLock();
-        document.getElementById('mainBtn').className = "big-btn running";
-        document.getElementById('mainBtn').textContent = "STOP";
-        document.getElementById('dot').className = "dot pulse";
-        timerIv = setInterval(updateTimer, 1000);
-    } else {
-        stopWalk();
+
+function addStep(){
+
+  steps++;
+
+  const km = steps*cfg.stride/100/1000;
+
+  document.getElementById('lSteps').textContent = steps;
+
+  document.getElementById('lDist').textContent  = fmtDist(km);
+
+  document.getElementById('barFill').style.width = Math.min(100,steps/5000*100)+'%';
+
+}
+
+
+// ═══════════════════════════════════════
+
+// SENSOR
+
+// ═══════════════════════════════════════
+
+function setupSensor(){
+
+  if(typeof DeviceMotionEvent==='undefined'){
+
+    setSensor('','❌ Accéléromètre non disponible');
+
+    return;
+
+  }
+
+  if(typeof DeviceMotionEvent.requestPermission==='function'){
+
+    // iOS: needs user gesture
+
+    setSensor('','iOS : appuyez START pour autoriser le capteur');
+
+  } else {
+
+    // Android: listen immediately
+
+    window.addEventListener('devicemotion', onMotion, {passive:true});
+
+    sensorOk=true;
+
+    setSensor('ok','Accéléromètre prêt ✓');
+
+  }
+
+}
+
+
+async function ensureSensor(){
+
+  if(sensorOk) return true;
+
+  if(typeof DeviceMotionEvent.requestPermission==='function'){
+
+    try{
+
+      const r=await DeviceMotionEvent.requestPermission();
+
+      if(r==='granted'){
+
+        window.addEventListener('devicemotion', onMotion, {passive:true});
+
+        sensorOk=true;
+
+        return true;
+
+      }
+
+      toast('Permission capteur refusée ❌');
+
+      return false;
+
+    }catch{
+
+      toast('Erreur permission capteur');
+
+      return false;
+
     }
+
+  }
+
+  return true;
+
 }
 
-function stopWalk() {
-    isWalking = false;
-    window.removeEventListener('devicemotion', onMotion);
-    clearInterval(timerIv);
-    document.getElementById('silentMode').pause();
-    if (wakeLock) wakeLock.release();
-    
-    let dist = (steps * cfg.stride / 100 / 1000);
-    walks.unshift({ id: Date.now(), date: new Date().toISOString(), steps, dist, duration: Date.now()-startTime });
-    saveWalks();
-    location.reload(); // Pour rafraîchir proprement tous les bilans
+
+function setSensor(state, msg){
+
+  document.getElementById('dot').className = 'dot '+(state||'');
+
+  document.getElementById('sensorTxt').textContent = msg;
+
 }
 
-// --- AFFICHAGE & STATS ---
-function updateTimer() {
-    let sec = Math.floor((Date.now()-startTime)/1000);
-    document.getElementById('lTime').textContent = Math.floor(sec/60).toString().padStart(2,'0')+":"+(sec%60).toString().padStart(2,'0');
+
+// ═══════════════════════════════════════
+
+// WALK CONTROL
+
+// ═══════════════════════════════════════
+
+async function toggleWalk(){
+
+  if(!isWalking){
+
+    const ok=await ensureSensor();
+
+    if(!ok) return;
+
+    startWalk();
+
+  } else {
+
+    stopWalk();
+
+  }
+
 }
 
-function renderBilans() {
-    const now = new Date();
-    const today = walks.filter(w => new Date(w.date).toDateString() === now.toDateString());
-    const week = walks.filter(w => (now - new Date(w.date)) < 7*24*3600*1000);
-    const month = walks.filter(w => new Date(w.date).getMonth() === now.getMonth());
 
-    const build = (id, data) => {
-        let s = data.reduce((a,b)=>a+b.steps,0), d = data.reduce((a,b)=>a+b.dist,0);
-        document.getElementById(id).innerHTML = `
-            <div class="bc"><div class="bc-num">${data.length}</div><div class="bc-sub">Sorties</div></div>
-            <div class="bc"><div class="bc-num">${s}</div><div class="bc-sub">Pas</div></div>
-            <div class="bc"><div class="bc-num">${d.toFixed(1)}</div><div class="bc-sub">km</div></div>`;
-    };
-    build('bJour', today); build('bSemaine', week); build('bMois', month);
+function startWalk(){
+
+  isWalking=true; steps=0; startTime=Date.now();
+
+  resetDetector();
+
+  document.getElementById('mainBtn').className='big-btn running';
+
+  document.getElementById('btnIcon').textContent='🛑';
+
+  document.getElementById('btnLabel').textContent='STOP';
+
+  document.getElementById('lSteps').textContent='0';
+
+  document.getElementById('lDist').textContent='0 m';
+
+  document.getElementById('lTime').textContent='00:00';
+
+  document.getElementById('lPace').textContent='—';
+
+  document.getElementById('barFill').style.width='0%';
+
+  setSensor('pulse','Détection de pas en cours…');
+
+  timerIv=setInterval(updateTimer,1000);
+
+  toast('Balade démarrée 🐕');
+
 }
 
-function renderHisto() {
-    document.getElementById('walkList').innerHTML = walks.map(w => `
-        <div class="wi">
-            <div><b>${new Date(w.date).toLocaleDateString()}</b><br><small>${w.steps} pas</small></div>
-            <div style="color:var(--accent); font-weight:800">${w.dist.toFixed(2)} km</div>
-        </div>`).join('');
+
+function stopWalk(){
+
+  isWalking=false;
+
+  clearInterval(timerIv); timerIv=null;
+
+  const elapsed=Date.now()-startTime;
+
+  const dist=steps*cfg.stride/100/1000;
+
+  walks.unshift({id:Date.now(),date:new Date().toISOString(),steps,distKm:parseFloat(dist.toFixed(4)),durationMs:elapsed,dog:cfg.dog});
+
+  saveWalks();
+
+  document.getElementById('mainBtn').className='big-btn idle';
+
+  document.getElementById('btnIcon').textContent='🐕';
+
+  document.getElementById('btnLabel').textContent='START';
+
+  setSensor('ok','Accéléromètre prêt ✓');
+
+  renderBilans(); renderHisto();
+
+  toast('Terminé ! '+fmtDist(dist)+' — '+steps+' pas 🎉');
+
+  startTime=null;
+
 }
 
-// --- UTILS ---
-function nav(p, b) {
-    document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
-    document.getElementById('page-'+p).classList.add('active');
-    document.querySelectorAll('.nav button').forEach(nb => nb.classList.remove('active'));
-    b.classList.add('active');
-    if(p==='bilans') renderBilans();
-    if(p==='histo') renderHisto();
+
+function updateTimer(){
+
+  if(!startTime) return;
+
+  const ms=Date.now()-startTime;
+
+  document.getElementById('lTime').textContent=fmtTime(ms);
+
+  const dist=steps*cfg.stride/100/1000;
+
+  if(ms>15000&&dist>0.01){
+
+    const pace=(ms/60000)/dist;
+
+    const pm=Math.floor(pace), ps=Math.round((pace-pm)*60);
+
+    document.getElementById('lPace').textContent=pm+':'+String(ps).padStart(2,'0');
+
+  }
+
 }
 
-function saveWalks() { localStorage.setItem('dog_walks_v2', JSON.stringify(walks)); }
-function saveCfg() { 
-    cfg.dog = document.getElementById('sDog').value;
-    cfg.height = document.getElementById('sHeight').value;
-    cfg.stride = Math.round(cfg.height * 0.415);
-    localStorage.setItem('dog_cfg_v2', JSON.stringify(cfg));
+
+// ═══════════════════════════════════════
+
+// BILANS
+
+// ═══════════════════════════════════════
+
+function renderBilans(){
+
+  const now=new Date();
+
+  const todayW=walks.filter(w=>new Date(w.date).toDateString()===now.toDateString());
+
+  const wk=new Date(now); wk.setDate(now.getDate()-((now.getDay()+6)%7)); wk.setHours(0,0,0,0);
+
+  const weekW=walks.filter(w=>new Date(w.date)>=wk);
+
+  const monW=walks.filter(w=>{const d=new Date(w.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+
+  renderBlock('bJour',todayW);
+
+  renderBlock('bSemaine',weekW);
+
+  renderBlock('bMois',monW);
+
 }
 
-function exportData() {
-    const blob = new Blob([JSON.stringify(walks)], {type:'application/json'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = 'balades.json'; a.click();
+
+function renderBlock(id,ws){
+
+  const el=document.getElementById(id);
+
+  if(!ws.length){
+
+    el.innerHTML='<div class="bc wide"><div style="font-size:28px">🦴</div><div class="bc-sub" style="margin-top:6px">Aucune balade</div></div>';
+
+    return;
+
+  }
+
+  const ts=ws.reduce((a,w)=>a+w.steps,0);
+
+  const td=ws.reduce((a,w)=>a+w.distKm,0);
+
+  const tm=ws.reduce((a,w)=>a+w.durationMs,0);
+
+  const n=ws.length;
+
+  el.innerHTML=`
+
+    <div class="bc"><div class="bc-num">${n}</div><div class="bc-sub">balade${n>1?'s':''}</div></div>
+
+    <div class="bc"><div class="bc-num" style="color:var(--green)">${fmtDist(td)}</div><div class="bc-sub">parcourus</div></div>
+
+    <div class="bc"><div class="bc-num" style="color:var(--accent2)">${fmtDurShort(tm)}</div><div class="bc-sub">en balade</div></div>
+
+    <div class="bc wide"><div class="bc-num" style="font-size:17px">${ts.toLocaleString('fr-FR')} pas</div>
+
+      <div class="bc-sub">${n>1?'Moy. '+fmtDist(td/n)+' · '+fmtDurShort(tm/n)+' par balade':'Balade unique'}</div></div>`;
+
 }
 
-// Init
-walks = JSON.parse(localStorage.getItem('dog_walks_v2') || "[]");
-cfg = JSON.parse(localStorage.getItem('dog_cfg_v2') || JSON.stringify(cfg));
-document.getElementById('sHeight').value = cfg.height;
-document.getElementById('sDog').value = cfg.dog;
-document.getElementById('dogName').textContent = cfg.dog;
-if (typeof DeviceMotionEvent !== 'undefined') {
-    document.getElementById('dot').className = "dot ok";
-    document.getElementById('sensorTxt').textContent = "Capteur prêt";
+
+// ═══════════════════════════════════════
+
+// HISTORIQUE
+
+// ═══════════════════════════════════════
+
+function renderHisto(){
+
+  const el=document.getElementById('walkList');
+
+  if(!walks.length){
+
+    el.innerHTML='<div class="empty"><span class="empty-ico">🐾</span>Aucune balade enregistrée.<br>Appuyez START pour commencer !</div>';
+
+    return;
+
+  }
+
+  el.innerHTML=walks.map((w,i)=>{
+
+    const d=new Date(w.date);
+
+    const ds=d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
+
+    const ts=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+
+    return `<div class="wi">
+
+      <span style="font-size:22px">🐾</span>
+
+      <div class="wi-info">
+
+        <div class="wi-date">${ds} à ${ts}</div>
+
+        <div class="wi-main">${w.steps.toLocaleString('fr-FR')} pas · ${fmtDurShort(w.durationMs)}</div>
+
+      </div>
+
+      <div class="wi-right">
+
+        <div class="wi-dist">${fmtDist(w.distKm)}</div>
+
+        <div class="wi-time">${w.dog||cfg.dog}</div>
+
+      </div>
+
+      <button class="wi-del" onclick="delWalk(${i})">✕</button>
+
+    </div>`;
+
+  }).join('');
+
 }
+
+
+function delWalk(i){
+
+  if(!confirm('Supprimer cette balade ?')) return;
+
+  walks.splice(i,1); saveWalks(); renderHisto(); renderBilans();
+
+  toast('Balade supprimée');
+
+}
+
+
+function clearAll(){
+
+  if(!confirm('Effacer TOUTES les balades ? Irréversible.')) return;
+
+  walks=[];saveWalks();renderHisto();renderBilans();toast('Données effacées');
+
+}
+
+
+// ═══════════════════════════════════════
+
+// EXPORT / IMPORT
+
+// ═══════════════════════════════════════
+
+function exportData(){
+
+  if(!walks.length){toast('Aucune balade à exporter');return;}
+
+  const data={version:2,exported:new Date().toISOString(),cfg,walks};
+
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+
+  const url=URL.createObjectURL(blob);
+
+  const a=document.createElement('a');
+
+  a.href=url;
+
+  a.download='balades-'+cfg.dog.replace(/\s+/g,'-')+'-'+new Date().toISOString().slice(0,10)+'.json';
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
+
+  toast(walks.length+' balades exportées 📤');
+
+}
+
+
+function importData(e){
+
+  const file=e.target.files[0];
+
+  if(!file) return;
+
+  const r=new FileReader();
+
+  r.onload=ev=>{
+
+    try{
+
+      const raw=JSON.parse(ev.target.result);
+
+      const list=Array.isArray(raw)?raw:(raw.walks||[]);
+
+      if(!list.length){toast('Aucune balade dans ce fichier');return;}
+
+      const ids=new Set(walks.map(w=>w.id));
+
+      const news=list.filter(w=>!ids.has(w.id));
+
+      walks=[...news,...walks].sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+      saveWalks();renderHisto();renderBilans();
+
+      toast(news.length+' nouvelle(s) balade(s) importée(s) ✓');
+
+    }catch{toast('Fichier JSON invalide ❌');}
+
+    e.target.value='';
+
+  };
+
+  r.readAsText(file);
+
+}
+
+
+// ═══════════════════════════════════════
+
+// SETTINGS
+
+// ═══════════════════════════════════════
+
+function onHeightChange(){
+
+  const h=parseFloat(document.getElementById('sHeight').value)||168;
+
+  document.getElementById('sStride').value=Math.round(h*0.415);
+
+  saveSettings();
+
+}
+
+function saveSettings(){
+
+  cfg.height=parseFloat(document.getElementById('sHeight').value)||168;
+
+  cfg.stride=parseFloat(document.getElementById('sStride').value)||70;
+
+  cfg.dog=document.getElementById('sDog').value.trim()||'Mon chien';
+
+  cfg.thresh=parseFloat(document.getElementById('sThresh').value)||1.2;
+
+  localStorage.setItem('dog_cfg',JSON.stringify(cfg));
+
+  document.getElementById('dogName').textContent=cfg.dog;
+
+  toast('Réglages sauvegardés ✓');
+
+}
+
+function loadSettings(){
+
+  try{const s=JSON.parse(localStorage.getItem('dog_cfg'));if(s)cfg={...cfg,...s};}catch{}
+
+  document.getElementById('sHeight').value=cfg.height;
+
+  document.getElementById('sStride').value=cfg.stride;
+
+  document.getElementById('sDog').value=cfg.dog;
+
+  document.getElementById('sThresh').value=cfg.thresh;
+
+  document.getElementById('dogName').textContent=cfg.dog;
+
+}
+
+function toggleDebug(){
+
+  debugMode=!debugMode;
+
+  document.getElementById('debugBox').classList.toggle('show',debugMode);
+
+  document.getElementById('debugBtn').textContent=debugMode?'Désactiver':'Activer';
+
+}
+
+
+// ═══════════════════════════════════════
+
+// PERSISTENCE
+
+// ═══════════════════════════════════════
+
+function saveWalks(){localStorage.setItem('dog_walks',JSON.stringify(walks));}
+
+function loadWalks(){try{walks=JSON.parse(localStorage.getItem('dog_walks')||'[]');}catch{walks=[];}}
+
+
+// ═══════════════════════════════════════
+
+// HELPERS
+
+// ═══════════════════════════════════════
+
+function fmtDist(km){
+
+  if(!km||km<0.001) return '0 m';
+
+  if(km<1) return Math.round(km*1000)+' m';
+
+  return km.toFixed(2)+' km';
+
+}
+
+function fmtTime(ms){
+
+  const s=Math.floor(ms/1000),m=Math.floor(s/60),h=Math.floor(m/60);
+
+  if(h>0) return h+':'+String(m%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+
+  return String(m).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+
+}
+
+function fmtDurShort(ms){
+
+  const m=Math.floor(ms/60000),h=Math.floor(m/60);
+
+  if(h>0) return h+'h'+String(m%60).padStart(2,'0');
+
+  if(m===0) return '< 1 min';
+
+  return m+' min';
+
+}
+
+function toast(msg){
+
+  const t=document.getElementById('toast');
+
+  t.textContent=msg;t.classList.add('show');
+
+  setTimeout(()=>t.classList.remove('show'),2800);
+
+}
+
+function nav(name,btn){
+
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+
+  document.getElementById('page-'+name).classList.add('active');
+
+  btn.classList.add('active');
+
+  if(name==='bilans') renderBilans();
+
+  if(name==='histo')  renderHisto();
+
+}
+
+
+// ═══════════════════════════════════════
+
+// INIT
+
+// ═══════════════════════════════════════
+
+loadSettings();
+
+loadWalks();
+
 renderBilans();
+
+renderHisto();
+
+// Génération de l'icône pour l'installation Android
+
+function initPWA() {
+
+  const manifest = {
+
+    "name": "Balade du Chien 🐾",
+
+    "short_name": "Balade 🐾",
+
+    "start_url": "./index.html",
+
+    "display": "standalone",
+
+    "background_color": "#0d0d1a",
+
+    "theme_color": "#1a1a2e",
+
+    "icons": [
+
+      { "src": "icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+
+      { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+
+    ]
+
+  };
+
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+
+  const url = URL.createObjectURL(blob);
+
+  
+
+  // Cette partie est cruciale :
+
+  let link = document.getElementById('manifest-placeholder');
+
+  if(!link) {
+
+    link = document.createElement('link');
+
+    link.id = 'manifest-placeholder';
+
+    link.rel = 'manifest';
+
+    document.head.appendChild(link);
+
+  }
+
+  link.setAttribute('href', url);
+
+}
+
+initPWA(); // On lance la fonction
+
+setupSensor();
+
 </script>
+
 </body>
-</html>
+
+</html>" 
