@@ -1,13 +1,3 @@
-Le problème de "l'appli qui s'arrête" (le processus qui est tué par le système) vient du fait que les navigateurs mobiles (Chrome, Safari) mettent en veille les scripts dès que l'écran s'éteint ou que l'on change d'application pour économiser la batterie.
-
-Pour corriger cela dans une application Web (PWA) sans passer par une application native lourde, il existe deux solutions techniques majeures que j'ai intégrées dans ton code :
-
-1.  **L'API Screen Wake Lock** : Elle empêche l'écran de s'éteindre tant que la balade est active. C'est la méthode la plus fiable.
-2.  **L'API de Visibilité** : Elle permet de recalculer le temps écoulé même si le téléphone a "dormi" quelques instants, évitant ainsi les sauts de chronomètre.
-
-Voici ton code mis à jour :
-
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -671,4 +661,3 @@ setupSensor();
 </script>
 </body>
 </html>
-```
