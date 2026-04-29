@@ -4,46 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>🐾 Balade du Chien</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* TON STYLE D'ORIGINE SANS MODIFICATION */
 :root{--bg:#0d0d1a;--surface:#1c1c3a;--surface2:#252550;--accent:#f5a623;--accent2:#ff6b6b;--green:#4ecdc4;--text:#e8e8f0;--muted:#7878a0;--border:rgba(255,255,255,0.07);}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:sans-serif;min-height:100dvh}
-.app{max-width:430px;margin:0 auto;padding:20px}
-header{display:flex;justify-content:space-between;margin-bottom:20px}
-.nav{display:flex;gap:5px;margin-bottom:20px}
-.nav button{flex:1;padding:10px;background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:8px}
-.nav button.active{background:var(--accent);color:#000}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh}
+.app{max-width:430px;margin:0 auto;padding:0 16px 100px}
+header{padding:20px 0;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px}
+.logo span{color:var(--accent)}
+.nav{display:flex;gap:8px;margin-bottom:20px}
+.nav button{flex:1;padding:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);font-size:12px;cursor:pointer}
+.nav button.active{background:var(--accent);color:#000;font-weight:600}
 .page{display:none}
 .page.active{display:block}
-.sensor-bar{background:var(--surface);padding:10px;border-radius:8px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.sensor-bar{background:var(--surface);padding:12px;border-radius:14px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-size:13px}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--muted)}
-.dot.ok{background:var(--green)}
-.dot.pulse{background:var(--accent);animation:blink 1s infinite}
-@keyframes blink{50%{opacity:0.3}}
-.center{text-align:center}
-.big-btn{width:150px;height:150px;border-radius:50%;border:none;font-weight:bold;font-size:18px;cursor:pointer;margin-bottom:20px}
-.big-btn.idle{background:var(--accent);color:#000}
-.big-btn.running{background:var(--accent2);color:#fff}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:var(--surface);padding:15px;border-radius:10px}
-.stat-v{font-size:24px;font-weight:bold;color:var(--accent)}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface2);padding:10px 20px;border-radius:20px;display:none}
+.dot.ok{background:var(--green);box-shadow:0 0 8px var(--green)}
+.dot.pulse{background:var(--accent);animation:blink .6s infinite alternate}
+@keyframes blink{to{opacity:.3}}
+.center{display:flex;flex-direction:column;align-items:center;gap:20px}
+.big-btn{width:160px;height:160px;border-radius:50%;border:none;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;cursor:pointer;transition:transform 0.1s}
+.big-btn:active{transform:scale(0.95)}
+.big-btn.idle{background:var(--accent);color:#000;box-shadow:0 0 30px rgba(245,166,35,0.2)}
+.big-btn.running{background:var(--accent2);color:#fff;box-shadow:0 0 30px rgba(255,107,107,0.3)}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+.stat{background:var(--surface);padding:16px;border-radius:16px;text-align:center;border:1px solid var(--border)}
+.stat.wide{grid-column:span 2}
+.stat-v{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent)}
+.stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;margin-top:4px}
+.stitle{font-family:'Syne',sans-serif;font-size:18px;margin:20px 0 12px;display:flex;align-items:center;gap:10px}
+.stitle::after{content:'';flex:1;height:1px;background:var(--border)}
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.bc{background:var(--surface);padding:12px 5px;border-radius:12px;text-align:center;border:1px solid var(--border)}
+.bc-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent)}
+.bc-sub{font-size:10px;color:var(--muted)}
+.wi{background:var(--surface);padding:12px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.s-row{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--surface);border-radius:12px;margin-bottom:8px}
+.s-input{background:var(--surface2);border:none;color:#fff;padding:8px;border-radius:6px;width:70px;text-align:center}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:10px 20px;border-radius:20px;font-weight:bold;display:none;z-index:1000}
 </style>
 </head>
 <body>
 
 <div class="app">
     <header>
-        <div>🐾 Balade</div>
-        <div id="dogName">Mon chien</div>
+        <div class="logo">Balade <span>🐾</span></div>
+        <div id="dogName" style="font-size:14px;color:var(--muted)">Mon chien</div>
     </header>
 
     <div class="nav">
         <button class="active" onclick="nav('tracker',this)">Balade</button>
+        <button onclick="nav('bilans',this)">Bilans</button>
         <button onclick="nav('histo',this)">Histo</button>
+        <button onclick="nav('settings',this)">Réglages</button>
     </div>
 
+    <!-- PAGE TRACKER -->
     <div class="page active" id="page-tracker">
         <div class="sensor-bar">
             <div class="dot" id="dot"></div>
@@ -52,77 +69,85 @@ header{display:flex;justify-content:space-between;margin-bottom:20px}
         <div class="center">
             <button class="big-btn idle" id="mainBtn" onclick="toggleWalk()">START</button>
             <div class="stats-grid">
-                <div class="stat"><div class="stat-v" id="lSteps">0</div><div>Pas</div></div>
-                <div class="stat"><div class="stat-v" id="lDist">0 m</div><div>Distance</div></div>
-                <div class="stat"><div class="stat-v" id="lTime">00:00</div><div>Durée</div></div>
+                <div class="stat wide"><div class="stat-v" id="lSteps">0</div><div class="stat-l">Pas</div></div>
+                <div class="stat"><div class="stat-v" id="lDist">0 m</div><div class="stat-l">Distance</div></div>
+                <div class="stat"><div class="stat-v" id="lTime">00:00</div><div class="stat-l">Durée</div></div>
             </div>
         </div>
     </div>
 
+    <!-- PAGE BILANS -->
+    <div class="page" id="page-bilans">
+        <div class="stitle">Aujourd'hui</div>
+        <div class="bilan-grid" id="bJour"></div>
+        <div class="stitle">Cette semaine</div>
+        <div class="bilan-grid" id="bSemaine"></div>
+        <div class="stitle">Ce mois</div>
+        <div class="bilan-grid" id="bMois"></div>
+    </div>
+
+    <!-- PAGE HISTO -->
     <div class="page" id="page-histo">
+        <div class="stitle">Historique</div>
         <div id="walkList"></div>
+    </div>
+
+    <!-- PAGE REGLAGES -->
+    <div class="page" id="page-settings">
+        <div class="stitle">Profil</div>
+        <div class="s-row"><span>Taille (cm)</span><input type="number" class="s-input" id="sHeight" onchange="updateHeight()"></div>
+        <div class="s-row"><span>Nom du chien</span><input type="text" class="s-input" style="width:120px" id="sDog" onchange="saveCfg()"></div>
+        <div class="stitle">Données</div>
+        <button onclick="exportData()" style="width:100%;padding:12px;border-radius:12px;margin-bottom:10px">📤 Exporter JSON</button>
+        <button onclick="confirm('Effacer tout ?') && (walks=[],saveWalks(),location.reload())" style="width:100%;padding:12px;border-radius:12px;background:#3a0a0a;color:var(--accent2);border:none">🗑️ Reset Total</button>
     </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- AJOUT : AUDIO SILENCIEUX POUR GARDER L'APPLI ALIVE -->
+<!-- CORRECTIF ANTI-KILL : AUDIO SILENCIEUX -->
 <audio id="silentMode" loop>
     <source src="https://raw.githubusercontent.com/anars/blank-audio/master/10-seconds-of-silence.mp3" type="audio/mp3">
 </audio>
 
 <script>
-let isWalking = false, steps = 0, startTime = null, timerIv = null, sensorOk = false, walks = [];
-let wakeLock = null;
+let isWalking = false, steps = 0, startTime = null, timerIv = null, walks = [], wakeLock = null;
+let cfg = { height: 170, stride: 70, dog: "Chien" };
 
-// GESTION DU WAKELOCK (Empêche l'écran de s'éteindre)
+// --- LOGIQUE CORE ---
 async function requestWakeLock() {
-    try { if ('wakeLock' in navigator) { wakeLock = await navigator.wakeLock.request('screen'); } } catch (err) {}
+    try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {}
 }
 
-// DÉTECTEUR DE PAS (Structure simple pour la stabilité)
 function onMotion(e) {
     if (!isWalking) return;
     const acc = e.accelerationIncludingGravity;
     if (!acc) return;
     let mag = Math.sqrt(acc.x*acc.x + acc.y*acc.y + acc.z*acc.z);
-    
-    // Logique de seuil simple (ajustable)
-    if (mag > 12) { 
+    if (mag > 12.5) { // Seuil simple
         if (!this.inStep) {
             steps++;
-            updateUI();
+            document.getElementById('lSteps').textContent = steps;
+            let d = (steps * cfg.stride / 100);
+            document.getElementById('lDist').textContent = d < 1000 ? Math.round(d)+" m" : (d/1000).toFixed(2)+" km";
             this.inStep = true;
-            setTimeout(() => { this.inStep = false; }, 350); 
+            setTimeout(() => this.inStep = false, 300);
         }
     }
 }
 
-function updateUI() {
-    document.getElementById('lSteps').textContent = steps;
-    let dist = (steps * 0.7); // 0.7m par pas par défaut
-    document.getElementById('lDist').textContent = dist < 1000 ? Math.round(dist) + " m" : (dist/1000).toFixed(2) + " km";
-}
-
 async function toggleWalk() {
     if (!isWalking) {
-        // Demande permission iOS si besoin
         if (typeof DeviceMotionEvent.requestPermission === 'function') {
             const res = await DeviceMotionEvent.requestPermission();
             if (res !== 'granted') return;
         }
-        
-        isWalking = true;
-        steps = 0;
-        startTime = Date.now();
+        isWalking = true; steps = 0; startTime = Date.now();
         window.addEventListener('devicemotion', onMotion);
-        
-        // Anti-kill : Audio + WakeLock
-        document.getElementById('silentMode').play().catch(e => {});
+        document.getElementById('silentMode').play().catch(() => {});
         requestWakeLock();
-
-        document.getElementById('mainBtn').textContent = "STOP";
         document.getElementById('mainBtn').className = "big-btn running";
+        document.getElementById('mainBtn').textContent = "STOP";
         document.getElementById('dot').className = "dot pulse";
         timerIv = setInterval(updateTimer, 1000);
     } else {
@@ -134,46 +159,80 @@ function stopWalk() {
     isWalking = false;
     window.removeEventListener('devicemotion', onMotion);
     clearInterval(timerIv);
-    
-    // Relâcher les ressources
     document.getElementById('silentMode').pause();
-    if (wakeLock) { wakeLock.release(); wakeLock = null; }
-
-    walks.unshift({steps, date: new Date().toLocaleDateString()});
-    localStorage.setItem('walks', JSON.stringify(walks));
+    if (wakeLock) wakeLock.release();
     
-    document.getElementById('mainBtn').textContent = "START";
-    document.getElementById('mainBtn').className = "big-btn idle";
-    document.getElementById('dot').className = "dot ok";
-    renderHisto();
+    let dist = (steps * cfg.stride / 100 / 1000);
+    walks.unshift({ id: Date.now(), date: new Date().toISOString(), steps, dist, duration: Date.now()-startTime });
+    saveWalks();
+    location.reload(); // Pour rafraîchir proprement tous les bilans
 }
 
+// --- AFFICHAGE & STATS ---
 function updateTimer() {
-    let diff = Math.floor((Date.now() - startTime) / 1000);
-    let m = Math.floor(diff / 60).toString().padStart(2, '0');
-    let s = (diff % 60).toString().padStart(2, '0');
-    document.getElementById('lTime').textContent = m + ":" + s;
+    let sec = Math.floor((Date.now()-startTime)/1000);
+    document.getElementById('lTime').textContent = Math.floor(sec/60).toString().padStart(2,'0')+":"+(sec%60).toString().padStart(2,'0');
 }
 
-function nav(p, btn) {
-    document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
-    document.getElementById('page-' + p).classList.add('active');
-    document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+function renderBilans() {
+    const now = new Date();
+    const today = walks.filter(w => new Date(w.date).toDateString() === now.toDateString());
+    const week = walks.filter(w => (now - new Date(w.date)) < 7*24*3600*1000);
+    const month = walks.filter(w => new Date(w.date).getMonth() === now.getMonth());
+
+    const build = (id, data) => {
+        let s = data.reduce((a,b)=>a+b.steps,0), d = data.reduce((a,b)=>a+b.dist,0);
+        document.getElementById(id).innerHTML = `
+            <div class="bc"><div class="bc-num">${data.length}</div><div class="bc-sub">Sorties</div></div>
+            <div class="bc"><div class="bc-num">${s}</div><div class="bc-sub">Pas</div></div>
+            <div class="bc"><div class="bc-num">${d.toFixed(1)}</div><div class="bc-sub">km</div></div>`;
+    };
+    build('bJour', today); build('bSemaine', week); build('bMois', month);
 }
 
 function renderHisto() {
-    const list = document.getElementById('walkList');
-    walks = JSON.parse(localStorage.getItem('walks') || "[]");
-    list.innerHTML = walks.map(w => `<div style="background:var(--surface);padding:10px;margin-top:5px;border-radius:8px">${w.date} : ${w.steps} pas</div>`).join('');
+    document.getElementById('walkList').innerHTML = walks.map(w => `
+        <div class="wi">
+            <div><b>${new Date(w.date).toLocaleDateString()}</b><br><small>${w.steps} pas</small></div>
+            <div style="color:var(--accent); font-weight:800">${w.dist.toFixed(2)} km</div>
+        </div>`).join('');
+}
+
+// --- UTILS ---
+function nav(p, b) {
+    document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+    document.getElementById('page-'+p).classList.add('active');
+    document.querySelectorAll('.nav button').forEach(nb => nb.classList.remove('active'));
+    b.classList.add('active');
+    if(p==='bilans') renderBilans();
+    if(p==='histo') renderHisto();
+}
+
+function saveWalks() { localStorage.setItem('dog_walks_v2', JSON.stringify(walks)); }
+function saveCfg() { 
+    cfg.dog = document.getElementById('sDog').value;
+    cfg.height = document.getElementById('sHeight').value;
+    cfg.stride = Math.round(cfg.height * 0.415);
+    localStorage.setItem('dog_cfg_v2', JSON.stringify(cfg));
+}
+
+function exportData() {
+    const blob = new Blob([JSON.stringify(walks)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'balades.json'; a.click();
 }
 
 // Init
+walks = JSON.parse(localStorage.getItem('dog_walks_v2') || "[]");
+cfg = JSON.parse(localStorage.getItem('dog_cfg_v2') || JSON.stringify(cfg));
+document.getElementById('sHeight').value = cfg.height;
+document.getElementById('sDog').value = cfg.dog;
+document.getElementById('dogName').textContent = cfg.dog;
 if (typeof DeviceMotionEvent !== 'undefined') {
     document.getElementById('dot').className = "dot ok";
     document.getElementById('sensorTxt').textContent = "Capteur prêt";
 }
-renderHisto();
+renderBilans();
 </script>
 </body>
 </html>
